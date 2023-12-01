@@ -1,5 +1,6 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.compose.ExperimentalComposeLibrary
+import org.jetbrains.kotlin.ir.backend.js.compile
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -28,6 +29,13 @@ kotlin {
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
+
+            val exposedVersion: String by project
+            implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
+            implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
+            implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
+
+            implementation("mysql:mysql-connector-java:8.0.30")
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -35,6 +43,10 @@ kotlin {
             implementation(compose.material)
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
+
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+
+            implementation("io.insert-koin:koin-core:3.2.0")
         }
     }
 }
